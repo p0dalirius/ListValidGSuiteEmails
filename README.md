@@ -16,6 +16,10 @@
  - [x] Export results in XLSX with `--export-xlsx <file.xlsx>`.
  - [x] Export results in SQLITE3  with `--export-sqlite <file.db>`.
 
+## Demo
+
+https://github.com/p0dalirius/ListValidGSuiteEmails/assets/79218792/3908ad67-1a85-4180-b3aa-fef3b9a806ff
+
 ## Usage
 
 ```
