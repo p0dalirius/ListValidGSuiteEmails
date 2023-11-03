@@ -177,14 +177,21 @@ def parseArgs():
     group_emails_source = parser.add_argument_group("Emails")
     group_emails_source.add_argument("-ef", "--emails-file", default=None, type=str, help="Path to file containing a line by line list of emails.")
     group_emails_source.add_argument("-E", "--email", default=[], type=str, action='append', help="Email.")
-    group_emails_source.add_argument("-d", "--domain", type=str, help="Add this domain to the emails.")
     group_emails_source.add_argument("--stdin", default=False, action="store_true", help="Read emails from stdin. (default: False)")
+    group_emails_source.add_argument("-c", "--csv-names", default=None, type=str, help="Path to file containing a line by line list of first and last names.")
+    group_emails_source.add_argument("-d", "--domain", type=str, help="Add this domain to the emails.")
+    
 
     options = parser.parse_args()
 
-    if (options.emails_file is None) and (options.stdin == False) and (len(options.email) == 0):
+    if (options.emails_file is None) and (options.stdin == False) and (len(options.email) == 0) and ((options.csv_names is None) and (options.domain is None)):
         parser.print_help()
         print("\n[!] No emails specified.")
+        sys.exit(0)
+
+    elif (options.csv_names is not None) and (options.domain is None) :
+        parser.print_help()
+        print("\n[!] Option --domain is required with --csv-names.")
         sys.exit(0)
 
     return options
@@ -202,17 +209,33 @@ if __name__ == '__main__':
 
     emails_to_check = []
 
-    # Loading emails line by line from a emails file
+    # Loading emails line by line from file
     if options.emails_file is not None:
         if os.path.exists(options.emails_file):
             if options.debug:
-                print("[debug] Loading emails line by line from emails file '%s'" % options.emails_file)
+                print("[debug] Loading emails line by line from file '%s'" % options.emails_file)
             f = open(options.emails_file, "r")
             for line in f.readlines():
                 emails_to_check.append(line.strip())
             f.close()
         else:
             print("[!] Could not open emails file '%s'" % options.emails_file)
+
+    # Loading names line by line from file
+    if options.csv_names is not None:
+        if os.path.exists(options.csv_names):
+            if options.debug:
+                print("[debug] Loading names line by line from file '%s'" % options.csv_names)
+            f = open(options.csv_names, "r")
+            for line in f.readlines():
+                firstname, lastname = line.lower().strip().split(';')[:2]
+                emails_to_check.append(f"{firstname}.{lastname}@{options.domain}")
+                emails_to_check.append(f"{lastname}@{options.domain}")
+                emails_to_check.append(f"{firstname}@{options.domain}")
+                emails_to_check.append(f"{firstname[0]}{lastname}@{options.domain}")
+            f.close()
+        else:
+            print("[!] Could not open names file '%s'" % options.csv_names)
 
     # Loading emails from a single --email option
     if len(options.email) != 0:
