@@ -156,7 +156,7 @@ def check_if_email_exists(email, options, request_proxies, monitor_data):
 
 
 def parseArgs():
-    print("ListValidGSuiteEmails.py v%s - by @podalirius_\n" % VERSION)
+    print("ListValidGSuiteEmails.py v%s - by Remi GASCOU (Podalirius)\n" % VERSION)
 
     parser = argparse.ArgumentParser(description="")
     parser.add_argument("-v", "--verbose", default=False, action="store_true", help='Verbose mode. (default: False)')

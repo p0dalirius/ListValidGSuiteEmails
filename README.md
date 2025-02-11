@@ -24,7 +24,7 @@ https://github.com/p0dalirius/ListValidGSuiteEmails/assets/79218792/3908ad67-1a8
 
 ```
 $ ./ListValidGSuiteEmails.py -h
-ListValidGSuiteEmails.py v1.1 - by @podalirius_
+ListValidGSuiteEmails.py v1.1 - by Remi GASCOU (Podalirius)
 
 usage: ListValidGSuiteEmails.py [-h] [-v] [--debug] [-T THREADS] [--no-colors] [-PI PROXY_IP] [-PP PROXY_PORT] [-rt REQUEST_TIMEOUT]
                                 [--export-xlsx EXPORT_XLSX] [--export-json EXPORT_JSON] [--export-sqlite EXPORT_SQLITE]
